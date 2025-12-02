@@ -11,13 +11,13 @@
 Este proyecto implementa el **Cifrado Hill** utilizando una matriz clave de tamaño 2×2 y el alfabeto de 26 letras (A–Z).  
 El usuario puede:
 
-- Escribir un mensaje.
+- 
 - Ingresar la matriz clave 2×2.
 - **Cifrar** el mensaje.
 - **Descifrar** el mensaje usando la matriz inversa.
 - Visualizar un **detalle paso a paso** del proceso matemático.
 
-El diseño de la interfaz se personalizó con un estilo moderno tipo Apple:  
+El diseño de la interfaz se personalizó con un estilo moderno:  
 fondos oscuros, bordes redondeados, tipografía clara y una estructura elegante visualmente.
 
 ---
@@ -52,8 +52,7 @@ El cifrado utiliza una matriz de clave:
 K = | a b |
 | c d |
 
-yaml
-Copiar código
+
 
 Los valores deben permitir que la matriz sea **invertible módulo 26**, de lo contrario no se puede descifrar.
 
@@ -87,8 +86,6 @@ Expresado:
 ⎡ a b ⎤ ⎡ 7 ⎤
 ⎣ c d ⎦ * ⎣ 8 ⎦ mod 26
 
-yaml
-Copiar código
 
 3. El resultado numérico se convierte de nuevo a letras usando la tabla A–Z.
 
@@ -106,22 +103,17 @@ Para descifrar, se calcula la **matriz inversa** de K módulo 26.
 
 det(K) = ad - bc
 
-makefile
-Copiar código
 
 Luego:
 
 det(K) mod 26
 
-makefile
-Copiar código
 
 Si:
 
 gcd(det(K), 26) ≠ 1
 
-yaml
-Copiar código
+
 
 la matriz **no tiene inverso** módulo 26 y no se puede descifrar.
 
@@ -133,8 +125,6 @@ Se busca un número `k` que cumpla:
 
 (det(K) * k) mod 26 = 1
 
-yaml
-Copiar código
 
 Ese valor `k` es el **inverso modular** de la determinante.
 
@@ -147,8 +137,6 @@ La adjunta de la matriz clave es:
 adj(K) = | d -b |
 | -c a |
 
-yaml
-Copiar código
 
 ---
 
@@ -158,8 +146,6 @@ La matriz inversa es:
 
 K⁻¹ = (1 / det(K)) * adj(K) mod 26
 
-diff
-Copiar código
 
 El sistema implementado en JavaScript calcula automáticamente:
 
@@ -173,10 +159,8 @@ Luego, aplica:
 
 P = K⁻¹ · C mod 26
 
-yaml
-Copiar código
 
-para recuperar el mensaje original.
+
 
 ---
 
@@ -205,8 +189,7 @@ para recuperar el mensaje original.
 - La matriz clave debe cumplir:  
 gcd(det(K), 26) = 1
 
-yaml
-Copiar código
+
 para que exista matriz inversa.
 
 - El descifrado se basa en:
