@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cifrado Hill – Diego Ramírez Magaña</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app-shell">
+        <header class="app-header">
+            <div class="logo-dot"></div>
+            <div>
+                <h1>Cifrado Hill</h1>
+                <p>Fundamentos de Álgebra · 1°C · Diego Ramírez Magaña</p>
+            </div>
+        </header>
+
+        <main class="card">
+            <section class="grid-2">
+                <!-- Columna izquierda: mensaje -->
+                <div class="panel">
+                    <h2>Mensaje</h2>
+                    <p class="hint">
+                        Escribe un texto usando letras A–Z. Se ignorarán números, tildes y signos.
+                    </p>
+                    <textarea id="mensaje" maxlength="160" placeholder="Escribe tu mensaje aquí..."></textarea>
+                    <div class="row-between">
+                        <span id="charCount">0 / 160</span>
+                        <span class="hint">Se convertirá a MAYÚSCULAS automáticamente.</span>
+                    </div>
+
+                    <div class="panel mt">
+                        <h3>Tipo de operación</h3>
+                        <div class="toggle-row">
+                            <label class="toggle">
+                                <input type="radio" name="accion" value="cifrar" checked>
+                                <span>Cifrar</span>
+                            </label>
+                            <label class="toggle">
+                                <input type="radio" name="accion" value="descifrar">
+                                <span>Descifrar</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Columna derecha: matriz clave -->
+                <div class="panel">
+                    <h2>Matriz clave (2×2)</h2>
+                    <p class="hint">
+                        Usa números enteros. La matriz debe ser invertible módulo 26 para poder descifrar.
+                    </p>
+
+                    <div class="matrix-input">
+                        <input type="number" id="k11" placeholder="a">
+                        <input type="number" id="k12" placeholder="b">
+                        <input type="number" id="k21" placeholder="c">
+                        <input type="number" id="k22" placeholder="d">
+                    </div>
+
+                    <button id="btnEjemplo" class="ghost-button">
+                        Usar matriz de ejemplo
+                    </button>
+
+                    <div class="math-note">
+                        <p><strong>Recordatorio:</strong></p>
+                        <p>det(K) = ad − bc debe cumplir que gcd(det, 26) = 1 para que exista K⁻¹.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="actions">
+                <button id="btnProcesar" class="primary-button">
+                    Ejecutar operación
+                </button>
+                <span id="status" class="status-text"></span>
+            </section>
+
+            <section class="grid-2 mt">
+                <div class="panel">
+                    <h2>Salida</h2>
+                    <p class="hint">Resultado del cifrado o descifrado.</p>
+                    <textarea id="resultado" readonly></textarea>
+                </div>
+
+                <div class="panel">
+                    <h2>Detalle del proceso</h2>
+                    <p class="hint">
+                        Aquí se muestra cómo se transforma el mensaje a números y cómo se aplica la matriz.
+                    </p>
+                    <pre id="detalle" class="code-box">// Esperando datos...</pre>
+                </div>
+            </section>
+        </main>
+
+        <footer class="app-footer">
+            <span>Cifrado Hill · Proyecto académico</span>
+            <span>Fundamentos de Álgebra · 1°C</span>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
