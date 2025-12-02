@@ -6,225 +6,255 @@
 
 ---
 
-## 1. Descripción general del proyecto
+# 1. Descripción general del proyecto
 
-Este proyecto implementa el algoritmo de **Cifrado Hill** usando una matriz clave de tamaño 2×2 y el alfabeto de 26 letras (A–Z).  
-La aplicación está desarrollada como una página web sencilla donde el usuario puede:
+Este proyecto implementa el **Cifrado Hill** utilizando una matriz clave de tamaño 2×2 y el alfabeto de 26 letras (A–Z).  
+El usuario puede:
 
-- Escribir un mensaje en texto plano.
-- Definir una matriz clave 2×2 con números enteros.
-- **Cifrar** el mensaje usando la matriz.
-- **Descifrar** un mensaje previamente cifrado, siempre que la matriz sea invertible módulo 26.
-- Ver un detalle paso a paso de la conversión de letras a números y de la aplicación de la matriz.
+- Escribir un mensaje.
+- Ingresar la matriz clave 2×2.
+- **Cifrar** el mensaje.
+- **Descifrar** el mensaje usando la matriz inversa.
+- Visualizar un **detalle paso a paso** del proceso matemático.
 
-La interfaz tiene un diseño inspirado en el estilo minimalista de Apple: fondo oscuro, tarjetas suaves, tipografía clara y botones redondeados.
-
----
-
-## 2. Descripción del algoritmo implementado
-
-El Cifrado Hill es un cifrado por bloques que utiliza **álgebra lineal** sobre aritmética modular.
-
-### 2.1. Representación del mensaje
-
-1. El usuario escribe un texto cualquiera (con o sin espacios, números o signos).
-2. El programa:
-   - Convierte todo a **mayúsculas**.
-   - Elimina acentos y caracteres especiales.
-   - Conserva únicamente letras A–Z.
-3. Cada letra se asocia a un número:
-
-   | Letra | Valor |
-   |-------|-------|
-   | A     | 0     |
-   | B     | 1     |
-   | ...   | ...   |
-   | Z     | 25    |
-
-4. El mensaje se agrupa en bloques de 2 letras.  
-   - Si el número de letras es impar, se agrega una **X** al final para completar el último bloque.
-
-### 2.2. Matriz clave
-
-La clave es una matriz:
-
-\[
-K = \begin{bmatrix}
-a & b \\
-c & d
-\end{bmatrix}
-\]
-
-con valores enteros.  
-Para poder descifrar, es necesario que la matriz sea **invertible módulo 26** (es decir, que su determinante tenga inverso módulo 26).
+El diseño de la interfaz se personalizó con un estilo moderno tipo Apple:  
+fondos oscuros, bordes redondeados, tipografía clara y una estructura elegante visualmente.
 
 ---
 
-## 3. Proceso de cifrado
+# 2. Descripción del algoritmo implementado
 
-Dado un bloque de dos letras, por ejemplo `HI`:
+## 2.1. Conversión de texto
 
-1. Se convierten las letras a números:  
-   - H → 7  
-   - I → 8  
+El mensaje ingresado por el usuario pasa por un proceso de limpieza:
 
-   Formamos el vector columna:
+1. Se convierte a **mayúsculas**.
+2. Se eliminan tildes.
+3. Se descartan caracteres no válidos (solo se aceptan A–Z).
+4. Cada letra se convierte a número:
 
-   \[
-   P = \begin{bmatrix} 7 \\ 8 \end{bmatrix}
-   \]
+| Letra | Valor |
+|-------|-------|
+| A     | 0     |
+| B     | 1     |
+| ...   | ...   |
+| Z     | 25    |
 
-2. Se aplica la matriz clave:
-
-   \[
-   C = K \cdot P \mod 26
-   \]
-
-   Es decir:
-
-   \[
-   C = 
-   \begin{bmatrix}
-   a & b \\
-   c & d
-   \end{bmatrix}
-   \cdot
-   \begin{bmatrix}
-   7 \\
-   8
-   \end{bmatrix}
-   \mod 26
-   =
-   \begin{bmatrix}
-   a \cdot 7 + b \cdot 8 \\
-   c \cdot 7 + d \cdot 8
-   \end{bmatrix}
-   \mod 26
-   \]
-
-3. Los resultados numéricos se vuelven a convertir a letras usando la tabla del alfabeto.
-
-El programa realiza estos cálculos para todos los bloques de 2 letras y genera el texto cifrado.
+5. El mensaje se divide en **pares de dos letras**.  
+   - Si es impar, se agrega una **X** al final para completar el último bloque.
 
 ---
 
-## 4. Proceso de descifrado
+## 2.2. Matriz clave
 
-Para descifrar, se necesita la **matriz inversa** de K módulo 26.
+El cifrado utiliza una matriz de clave:
 
-### 4.1. Cálculo del determinante
+K = | a b |
+| c d |
 
-\[
-\det(K) = ad - bc
-\]
+yaml
+Copiar código
 
-Luego se toma:
-
-\[
-\det(K) \mod 26
-\]
-
-Si `gcd(det(K), 26) ≠ 1`, la matriz **no tiene inverso** y no se puede descifrar con esa clave.
-
-### 4.2. Inverso modular del determinante
-
-Se busca un número `k` tal que:
-
-\[
-(\det(K) \cdot k) \mod 26 = 1
-\]
-
-Ese `k` es el **inverso modular** de la determinante.
-
-### 4.3. Matriz inversa K⁻¹
-
-La matriz inversa en aritmética modular es:
-
-\[
-K^{-1} = k \cdot
-\begin{bmatrix}
-d & -b \\
--c & a
-\end{bmatrix}
-\mod 26
-\]
-
-El programa calcula esta matriz y luego, para cada bloque cifrado \( C \), aplica:
-
-\[
-P = K^{-1} \cdot C \mod 26
-\]
-
-para recuperar el texto original en números, que luego se convierte otra vez a letras.
+Los valores deben permitir que la matriz sea **invertible módulo 26**, de lo contrario no se puede descifrar.
 
 ---
 
-## 5. Instrucciones de uso
+# 3. Proceso de cifrado
 
-1. Abrir la página `index.html` en el navegador o acceder al enlace desplegado (GitHub Pages / Netlify, etc.).
-2. Escribir un mensaje en el cuadro **“Mensaje”**.
-3. Ingresar la matriz clave 2×2 en los campos:
-   - a = k11
-   - b = k12
-   - c = k21
-   - d = k22
-4. (Opcional) Presionar **“Usar matriz de ejemplo”** para cargar una clave válida.
-5. Seleccionar:
-   - **Cifrar** para generar un texto cifrado.
-   - **Descifrar** para intentar recuperar el mensaje original.
-6. Dar clic en **“Ejecutar operación”**.
-7. En la parte de **Salida** se mostrará el resultado, y en **Detalle del proceso** se explican los pares y transformaciones.
+Dado un par de letras, por ejemplo: `HI`
 
----
+1. Se convierten las letras en números:
+   - H → 7
+   - I → 8
 
-## 6. Detalles sobre las matemáticas implementadas
+El vector queda:
 
-- Se trabaja con aritmética módulo 26 (por las 26 letras del alfabeto).
-- La función `mod()` en JavaScript se asegura de que el resultado sea positivo.
-- El inverso modular del determinante se obtiene probando valores de 1 a 25 hasta encontrar uno que cumpla:
+P = | 7 |
+| 8 |
 
-  \[
-  (det \cdot x) \mod 26 = 1
-  \]
+markdown
+Copiar código
 
-- Si no se encuentra inverso modular, el programa muestra un mensaje de error y pide cambiar la matriz clave.
+2. Se aplica la transformación:
 
----
+C = K · P mod 26
 
-## 7. Personalización realizada
+makefile
+Copiar código
 
-- Diseño de interfaz inspirado en el estilo **Apple**:
-  - Fondo oscuro con degradado.
-  - Tarjetas con bordes redondeados y sombras suaves.
-  - Tipografía del sistema (-apple-system).
-  - Botones redondeados con efecto de luz.
-- Organización en paneles:
-  - Mensaje y tipo de operación.
-  - Matriz clave y recordatorio matemático.
-  - Resultado y detalle del proceso.
-- Mensajes de estado claros (éxito / error) para apoyar al usuario.
+Expresado:
+
+⎡ a b ⎤ ⎡ 7 ⎤
+⎣ c d ⎦ * ⎣ 8 ⎦ mod 26
+
+yaml
+Copiar código
+
+3. El resultado numérico se convierte de nuevo a letras usando la tabla A–Z.
+
+El programa realiza esta operación para todos los pares del mensaje.
 
 ---
 
-## 8. Tecnologías utilizadas
+# 4. Proceso de descifrado
 
-- **HTML5**: estructura de la aplicación.
-- **CSS3**: estilos, diseño responsivo y apariencia visual.
-- **JavaScript**: lógica del cifrado y descifrado, manejo del DOM y validaciones.
+Para descifrar, se calcula la **matriz inversa** de K módulo 26.
 
 ---
 
-## 9. Posibles mejoras futuras
+## 4.1. Cálculo del determinante
 
-- Permitir elegir diferentes alfabetos (por ejemplo, incluir la Ñ o espacios).
-- Soportar matrices de tamaño 3×3 para operar con bloques más grandes.
-- Agregar pruebas automáticas con ejemplos conocidos.
-- Incluir un modo “paso a paso” donde el usuario avance bloque por bloque.
+det(K) = ad - bc
+
+makefile
+Copiar código
+
+Luego:
+
+det(K) mod 26
+
+makefile
+Copiar código
+
+Si:
+
+gcd(det(K), 26) ≠ 1
+
+yaml
+Copiar código
+
+la matriz **no tiene inverso** módulo 26 y no se puede descifrar.
 
 ---
 
-## 10. Referencias
+## 4.2. Inverso modular del determinante
 
-- Hill, L. S. (1929). *Cryptography in an Algebraic Alphabet*.  
-- Documentación de MDN Web Docs sobre JavaScript y aritmética modular.  
-- Material de clase de **Fundamentos de Álgebra** sobre matrices, determinante e inversa.
+Se busca un número `k` que cumpla:
+
+(det(K) * k) mod 26 = 1
+
+yaml
+Copiar código
+
+Ese valor `k` es el **inverso modular** de la determinante.
+
+---
+
+## 4.3. Matriz adjunta
+
+La adjunta de la matriz clave es:
+
+adj(K) = | d -b |
+| -c a |
+
+yaml
+Copiar código
+
+---
+
+## 4.4. Cálculo de la matriz inversa
+
+La matriz inversa es:
+
+K⁻¹ = (1 / det(K)) * adj(K) mod 26
+
+diff
+Copiar código
+
+El sistema implementado en JavaScript calcula automáticamente:
+
+- determinante
+- determinante mod 26
+- inverso modular
+- matriz adjunta
+- matriz inversa resultante
+
+Luego, aplica:
+
+P = K⁻¹ · C mod 26
+
+yaml
+Copiar código
+
+para recuperar el mensaje original.
+
+---
+
+# 5. Instrucciones de uso
+
+1. Escribir un mensaje en el campo “Mensaje”.
+2. Ingresar los valores de la matriz clave:
+   - a → k11  
+   - b → k12  
+   - c → k21  
+   - d → k22
+3. Elegir entre:
+   - **Cifrar**
+   - **Descifrar**
+4. Oprimir el botón **“Ejecutar operación”**.
+5. Revisar:
+   - El resultado (mensaje cifrado o descifrado).
+   - El detalle matemático del procedimiento.
+
+---
+
+# 6. Detalles matemáticos del proyecto
+
+- Se usa aritmética **módulo 26**.
+- La función **mod()** implementada garantiza resultados positivos.
+- La matriz clave debe cumplir:  
+gcd(det(K), 26) = 1
+
+yaml
+Copiar código
+para que exista matriz inversa.
+
+- El descifrado se basa en:
+- determinante  
+- inverso modular  
+- matriz adjunta  
+- matriz inversa  
+
+Todo se aplica bloque por bloque (dos letras a la vez).
+
+---
+
+# 7. Personalización aplicada
+
+- Interfaz con diseño **tipo Apple**:
+- Fondo oscuro con degradado.
+- Tarjetas con bordes redondeados.
+- Botones con efecto de iluminación.
+- Tipografía del sistema (-apple-system).
+- Secciones organizadas en paneles visuales.
+
+- Modo responsivo para funcionar en celulares.
+- Indicadores de éxito/error para mejorar la experiencia del usuario.
+
+---
+
+# 8. Tecnologías utilizadas
+
+- **HTML5** para estructura.  
+- **CSS3** diseño personalizado. 
+- **JavaScript** para toda la lógica del cifrado y descifrado.  
+- **Git y GitHub** para control de versiones.  
+- **GitHub Pages** para despliegue del proyecto.
+
+---
+
+# 9. Posibles mejoras futuras
+
+- Matrices clave de 3×3.
+- Inclusión de la letra Ñ.
+- Soporte para espacios.
+- Historial de operaciones.
+- Modo paso-a-paso interactivo.
+
+---
+
+# 10. Referencias
+
+- Hill, Lester S. (1929). *Cryptography in an Algebraic Alphabet*.  
+- Documentación de MDN Web Docs sobre JavaScript y métodos matemáticos.  
+- Apuntes de clase de Fundamentos de Álgebra (matrices, determinantes e inversas).
