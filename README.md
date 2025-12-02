@@ -11,7 +11,7 @@
 Este proyecto implementa el **Cifrado Hill** utilizando una matriz clave de tamaño 2×2 y el alfabeto de 26 letras (A–Z).  
 El usuario puede:
 
-- 
+-
 - Ingresar la matriz clave 2×2.
 - **Cifrar** el mensaje.
 - **Descifrar** el mensaje usando la matriz inversa.
@@ -26,7 +26,6 @@ fondos oscuros, bordes redondeados, tipografía clara y una estructura elegante 
 
 ## 2.1. Conversión de texto
 
-El mensaje ingresado por el usuario pasa por un proceso de limpieza:
 
 1. Se convierte a **mayúsculas**.
 2. Se eliminan tildes.
@@ -40,6 +39,7 @@ El mensaje ingresado por el usuario pasa por un proceso de limpieza:
 | ...   | ...   |
 | Z     | 25    |
 
+
 5. El mensaje se divide en **pares de dos letras**.  
    - Si es impar, se agrega una **X** al final para completar el último bloque.
 
@@ -49,8 +49,10 @@ El mensaje ingresado por el usuario pasa por un proceso de limpieza:
 
 El cifrado utiliza una matriz de clave:
 
-K = | a b |
-| c d |
+K =
+
+| a   b |
+| c   d |
 
 
 
@@ -68,23 +70,19 @@ Dado un par de letras, por ejemplo: `HI`
 
 El vector queda:
 
-P = | 7 |
+P =
+
+| 7 |
 | 8 |
 
-markdown
-Copiar código
 
 2. Se aplica la transformación:
 
 C = K · P mod 26
 
-makefile
-Copiar código
+⎡ a   b ⎤   ⎡ 7 ⎤
+⎣ c   d ⎦ * ⎣ 8 ⎦   mod 26
 
-Expresado:
-
-⎡ a b ⎤ ⎡ 7 ⎤
-⎣ c d ⎦ * ⎣ 8 ⎦ mod 26
 
 
 3. El resultado numérico se convierte de nuevo a letras usando la tabla A–Z.
