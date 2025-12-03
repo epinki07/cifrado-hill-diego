@@ -1,12 +1,12 @@
 // script.js
 document.addEventListener("DOMContentLoaded", () => {
-    const mensajeEl   = document.getElementById("mensaje");
+    const mensajeEl = document.getElementById("mensaje");
     const resultadoEl = document.getElementById("resultado");
-    const detalleEl   = document.getElementById("detalle");
-    const statusEl    = document.getElementById("status");
+    const detalleEl = document.getElementById("detalle");
+    const statusEl = document.getElementById("status");
     const charCountEl = document.getElementById("charCount");
     const btnProcesar = document.getElementById("btnProcesar");
-    const btnEjemplo  = document.getElementById("btnEjemplo");
+    const btnEjemplo = document.getElementById("btnEjemplo");
 
     const k11El = document.getElementById("k11");
     const k12El = document.getElementById("k12");
@@ -106,14 +106,18 @@ document.addEventListener("DOMContentLoaded", () => {
         statusEl.textContent = "";
         detalleEl.textContent = "";
 
-        let texto = mensajeEl.value;
+        const accion = document.querySelector('input[name="accion"]:checked').value;
 
-        if (!texto.trim()) {
-            statusEl.textContent = "Escribe un mensaje primero.";
+        // Si cifro, uso el texto del mensaje.
+        // Si descifro, uso el texto que está en "Salida".
+        let texto = accion === "cifrar" ? mensajeEl.value : resultadoEl.value;
+
+        if (!texto || !texto.trim()) {
+            statusEl.textContent = accion === "cifrar"
+                ? "Escribe un mensaje primero."
+                : "No hay texto cifrado en la salida para descifrar.";
             return;
         }
-
-        const accion = document.querySelector('input[name="accion"]:checked').value; // <- IMPORTANTE
 
         texto = normalizarTexto(texto);
 
@@ -122,9 +126,15 @@ document.addEventListener("DOMContentLoaded", () => {
             return;
         }
 
-        // Rellenar con X si la longitud es impar
+        // Para cifrar: si la longitud es impar, rellenamos con X.
+        // Para descifrar: si la longitud es impar, avisamos (algo raro pasó).
         if (texto.length % 2 !== 0) {
-            texto += "X";
+            if (accion === "cifrar") {
+                texto += "X";
+            } else {
+                statusEl.textContent = "El texto cifrado debe tener longitud par (múltiplo de 2).";
+                return;
+            }
         }
 
         const numeros = textoANumeros(texto);
