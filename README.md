@@ -1,55 +1,27 @@
-# 🔐 Cifrado Hill – Proyecto Final
+# Cifrado Hill
 
-Implementación web del **Cifrado Hill** — encriptación por álgebra matricial 2x2 con interfaz interactiva en JavaScript.
+Implementacion web del Cifrado Hill: encriptacion por algebra matricial 2x2 con interfaz interactiva en JavaScript. Proyecto final del tema de criptografia clasica.
 
-## 📋 ¿Qué hace?
+## Que hace
 
-- **Cifrado matricial**: Usa multiplicación de matrices para encriptar
-- **Interfaz web**: UI interactiva en HTML/CSS/JavaScript
-- **Validación de claves**: Verifica que la matriz sea invertible
-- **Soporte español**: Alfabeto completo con ñ
+Toma texto plano y una clave matricial 2x2, valida que la matriz sea invertible modulo 27, y cifra el texto usando multiplicacion de matrices. Incluye soporte para el alfabeto espanol con la letra n.
 
-## 🛠️ Tech Stack
+El proceso: convierte las letras a numeros, agrupa en vectores de dos elementos, multiplica por la matriz clave, aplica modulo 27, y convierte el resultado de vuelta a texto.
 
-| Frontend | Algoritmo | Matemáticas |
-|----------|-----------|-------------|
-| HTML/CSS | Hill Cipher | Álgebra Lineal |
-| JavaScript | | Matrices 2x2 |
+**Condicion de la clave**: la matriz debe tener determinante distinto de cero y ser invertible modulo 27.
 
-## 🚀 Cómo usarlo
+## Como usarlo
 
 ```bash
-# Clonar
 git clone https://github.com/epinki07/cifrado-hill.git
 cd cifrado-hill
-
-# Abrir en navegador
 open index.html
 ```
 
-## 📖 ¿Cómo funciona?
+## Tech Stack
 
-El Cifrado Hill usa álgebra matricial para transformar texto:
+HTML, CSS y JavaScript. Sin dependencias externas.
 
-1. Convertir letras a números (A=0, B=1, ...)
-2. Agrupar en vectores de 2 elementos
-3. Multiplicar por matriz de clave 2x2
-4. Aplicar módulo 27 (alfabeto español)
-5. Convertir resultado de vuelta a letras
+## Autor
 
-**Matriz válida**: Debe tener determinante ≠ 0 y ser invertible módulo 27.
-
-## 💡 Qué aprendí
-
-- **Criptografía clásica**: Cifrados basados en álgebra
-- **Álgebra lineal aplicada**: Matrices, determinantes, inversas
-- **JavaScript DOM**: Manipulación dinámica del DOM
-- **Validación de entrada**: Verificar condiciones matemáticas
-
-## 🤝 Autor
-
-**Diego Ramirez Magaña**
-
-- 📧 dramirezmagana@gmail.com
-- 🔗 [LinkedIn](https://www.linkedin.com/in/diego-ramirez-maga%C3%B1a-b15022298/)
-- 🐙 [GitHub](https://github.com/epinki07)
+Diego Ramirez Magana — [LinkedIn](https://www.linkedin.com/in/diego-ramirez-maga%C3%B1a-b15022298/) | [GitHub](https://github.com/epinki07) | dramirezmagana@gmail.com
